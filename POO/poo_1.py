@@ -10,4 +10,17 @@
 # - Peso
 
 class MoldePokemon:
-    pass
+    # Método construtor: métodos são funções no contexto de POO. No método construtor serão passados os atributos necessários naquela classe
+    # Self: tem a função de armazenar e manipular as informações dos atributos
+    def __init__(self, nome, hp, tipo, ataque, altura, peso):
+        # Inicialização dos atributos
+        self.nome = nome
+        self.hp = hp
+        self.tipo = tipo
+        self.ataque = ataque
+        self.altura = altura
+        self.peso = peso
+
+    # Método da classe que utiliza o atributo inicializado com "self" para mostrar o nome do pokémon
+    def mostrar_nome_pokemon(self):
+        print(f"O nome do pokémon é: {self.nome}")
