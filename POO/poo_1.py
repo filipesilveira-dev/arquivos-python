@@ -29,6 +29,7 @@ class MoldePokemon:
     def mostrar_altura_pokemon(self):
         print(f"A altura do pokémon é: {self.altura}")
 
+# Instância que utiliza a classe MoldePokemon para criar um pokémon
 pokemon1=MoldePokemon("Pikachu", 100, "Elétrico", 150, 50, 10)
 
 print(pokemon1.nome)
