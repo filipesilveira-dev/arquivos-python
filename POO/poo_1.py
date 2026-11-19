@@ -24,3 +24,7 @@ class MoldePokemon:
     # Método da classe que utiliza o atributo inicializado com "self" para mostrar o nome do pokémon
     def mostrar_nome_pokemon(self):
         print(f"O nome do pokémon é: {self.nome}")
+
+    # Método da classe que utiliza o atributo inicializado com "self" para mostrar a altura do pokémon
+    def mostrar_altura_pokemon(self):
+        print(f"A altura do pokémon é: {self.altura}")
