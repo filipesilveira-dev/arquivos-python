@@ -28,3 +28,7 @@ class MoldePokemon:
     # Método da classe que utiliza o atributo inicializado com "self" para mostrar a altura do pokémon
     def mostrar_altura_pokemon(self):
         print(f"A altura do pokémon é: {self.altura}")
+
+pokemon1=MoldePokemon("Pikachu", 100, "Elétrico", 150, 50, 10)
+
+print(pokemon1.nome)
