@@ -9,7 +9,7 @@ class Livro:
     def valor_em_estoque(self):
         return self.preco * self.quantidade
 
-# Classe Estoque que não instancia, compõe com livros, pois Estoque não é um tipo de livro e sim contém livro
+# Classe Estoque que não HERDA de Livro, mas faz COMPOSIÇÃO com objetos Livro, pois Estoque não é um tipo de livro ("é um"), e sim contém livros ("tem um").
 class Estoque:
     def __init__(self):
         # Crie aqui o atributo self.livros com uma lista vazia
@@ -19,7 +19,7 @@ class Estoque:
     def adicionar(self, livro):
         # Coloque o livro no final da lista self.livros
         self.livros.append(livro)
-        # Retorna o array com os livros
+        # Retorna uma lista com os livros
         return self.livros
         
     # Método de calcular o valor total no estoque: utiliza o método de Livro para receber o valor total daquele livro em estoque. Percorre o array self.livros somando o valor em estoque de cada livro e armazendando em total
@@ -31,7 +31,7 @@ class Estoque:
         # Retorna o valor total em estoque
         return total
 
-    # Método que retorna um array com os livros esgotados: percorre o array self.livro e verifica o livro.quantidade. Caso seja igual a zero, o livro é adicionado ao array esgotados
+# Método que retorna uma lista com os títulos dos livros esgotados: percorre a lista self.livros e verifica o livro.quantidade. Caso seja igual a zero, o título do livro é adicionado à lista esgotados
     def titulos_esgotados(self):
         # Devolva a lista com os títulos dos livros com quantidade igual a 0
         esgotados = []
@@ -42,7 +42,7 @@ class Estoque:
 
 
 # Teste a sua classe com outros valores:
-# Loja compõe com Estoque. Se fosse um instância, seria "loja=Estoque(Livro)" o que nã faz sentido
+# Loja é uma instância de Estoque
 loja = Estoque()
 # Utiliza o método "adicionar()" de Estoque para adicionar um livro
 loja.adicionar(Livro("Dom Casmurro", "Machado de Assis", 29.9, 4))
