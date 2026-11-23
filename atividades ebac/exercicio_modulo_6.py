@@ -2,6 +2,11 @@
 is_running = True
 # Inicialização da variável de controle do segundo loop aninhado
 is_continuing = True
+# Operações com função lambda
+soma = lambda num1,num2 : num1 + num2
+subtracao = lambda num1,num2 : num1 - num2
+multiplicacao = lambda num1,num2 : num1 * num2
+divisao = lambda num1,num2 : num1 / num2
 
 # Laço de repetição "while": executará o código no seu escopo ENQUANTO "is_running" for true
 while(is_running):
@@ -17,7 +22,6 @@ while(is_running):
     for opcao in menu:
         print(opcao)
 
-
     # Variável que recebe a escolha do usuário 
     opcao = input("\nDigite o número da operação desejada: ")
 
@@ -26,24 +30,40 @@ while(is_running):
         print("\n### Inválido! Digite uma opção válida ###")
         # Faz o loop voltar ao início"
         continue
- 
-# Variáveis que recebem os dois números inseridos pelo usuário
-    num1 = float(input("Digite o primeiro número: "))
-    num2 = float(input("Digite o segundo número: "))
+
+    # Enquanto não ocorra o "break", o loop seguirá
+    while True:
+        # Tenta converter em float
+        try:
+            # Variáveis que recebem os dois números inseridos pelo usuário
+            num1 = float(input("Digite o primeiro número: "))
+            num2 = float(input("Digite o segundo número: "))
+            break
+        # Caso algo diferente de um número seja inserido, será tratado o erro
+        except ValueError:
+            print("\n### Inválido! Digite um número ###\n")
+        
 
 # O "input" retorna uma string que é comparada nas condicionais
     if opcao == "1":
-        print("\nResultado:", num1 + num2)
+        print("\nResultado:", soma(num1,num2))
     elif opcao == "2":
-        print("\nResultado:", num1 - num2)
+        print("\nResultado:", subtracao(num1,num2))
     elif opcao == "3":
-        print("\nResultado:", num1 * num2)
+        print("\nResultado:", multiplicacao(num1,num2))
     elif opcao == "4":
-        if num2 == 0: 
-            # Na ocasião de escolha pela divisão, caso o segundo número seja "0", a mensagem de "erro" será exibida
-            print("\n### Erro: não existe número dividido por zero ###")
-        else:
-            print("\nResultado:", num1 / num2)
+        while True:
+            if num2 == 0: 
+                # Na ocasião de escolha pela divisão, caso o segundo número seja "0", a mensagem de "erro" será exibida
+                print("\n### Erro: não existe número dividido por zero ###")
+                try:
+                    num2 = float(input("Digite o segundo número: "))
+                except ValueError:
+                    print("\n### Inválido! Digite um número maior que zero ###\n")
+
+            else:
+                print("\nResultado:", divisao(num1,num2))
+                break
     
     # Segundo loop dentro do primeiro loop: previne que qualquer valor diferente de "2" funcione como continuação. O usuário precisará digitar um valor válido para continuar ou sair do programa
     while(is_continuing):  
