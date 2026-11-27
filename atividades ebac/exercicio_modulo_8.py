@@ -1,31 +1,34 @@
 # Inicialização da variável de controle do primeiro loop 
 is_running = True
 # Inicialização da variável de controle do segundo loop aninhado
-is_continuing = True
+# is_continuing = True
 # Inicialização do dicionário que receberá os livros e suas informações
 estoque_acervo={}
 # Inicialização do array com o histórico de empréstimos
 historico_emprestimos=[]
+# Função criada para diminuir a repetição de código. Ela é chamada ao final de cada operação e retorna um valor booleano
+def perguntar_continuar() -> bool:
+    """Pergunta ao usuário se deseja continuar e retorna True ou False."""
+    while True:
+        print("\nDeseja realizar outra consulta?")
+        opcao = input("1 - Sim | 2 - Não\nDigite sua opção: ").strip()
+
+        if opcao == "1":
+            return True
+        if opcao == "2":
+            print("\nObrigado por utilizar o programa!")
+            print("Fim do programa.")
+            return False
+
+        print("Opção inválida. Por favor, digite 1 ou 2.")
+
 # Funções de manipulação de livros
 def cadastrar():
-    # Possibilita a utilização da variável global "is_running" localmente, ou seja dentro da função
-    global is_running
     # Variáveis que recebem os inputs do usuário 
     nome_item = str(input("\nDigite o nome do livro: ").lower())
     if nome_item in estoque_acervo:
         print(f"\nO produto {nome_item} já existe. Acesse o menu para atualizar")
-        print('\nDeseja realizar outra consulta?')
-        print('\n1 - Sim | 2 - Não')
-        opcao=str(input("Digite sua opção:"))
-        if opcao not in ["1","2"]:
-            print("Digite um opção válida")
-        elif opcao == '1':
-            return
-        else:
-            if opcao == '2':
-                print("\nObrigado por utilizar o programa!")
-                print("\nFim do programa")
-                is_running=False
+        return perguntar_continuar()
     else:
         autor_livro=str(input("\nDigite o autor do livro: "))
         quantidade_item=int(input("\nDigite a quantidade do livro: "))
@@ -35,57 +38,28 @@ def cadastrar():
             "autor": autor_livro,
             "quantidade": quantidade_item,
         }
-        print(f"\nItem '{nome_item} | {autor_livro} | {quantidade_item} exemplar(es)' adicionado com sucesso!")
-        print('\nDeseja realizar outra consulta?')
-        print('\n1 - Sim | 2 - Não')
-        opcao=str(input("Digite sua opção:"))
-        if opcao not in ["1","2"]:
-            print("Digite um opção válida")
-        else:
-            if opcao == '2':
-                print("\nObrigado por utilizar o programa!")
-                print("\nFim do programa")
-                is_running=False
+        print(f"\nItem '{nome_item} | {autor_livro} | {quantidade_item} exemplar (es)' adicionado com sucesso!")
+        return perguntar_continuar()
 
 # Função que será chamada caso usuário deseje listar um produto
 def listar():
-    global is_running
-    if len(estoque_de_produtos) == 0:
-            print("Nenhum produto ainda foi cadastrado. Retorne ao menu para começar a adicionar.")
-            print('Deseja realizar outra consulta?')
-            print('\n1 - Sim | 2 - Não')
-            opcao = str(input("Digite sua opção:"))
-            if opcao not in ["1","2"]:
-                print("Digite um opção válida")
-            elif opcao == '2':
-                print("\nObrigado por utilizar o programa!")
-                print("\nFim do programa")
-                is_running = False
-            else:
-                return  # Retorna ao menu se escolher '1'
+    if len(estoque_acervo) == 0:
+        print("\nNão há livros cadastrados!")
+        return perguntar_continuar()
     else:
-        # Uso obrigatório de função "lambda" para ordenar os produtos do estoque
-        ordenar_estoque=lambda estoque: sorted(estoque.items())
+        # Função "lambda" para ordenar os livros do acervo
+        ordenar_acervo=lambda acervo: sorted(acervo.items())
         # Aplica a função no estoque desordenado
-        estoque_ordenado=ordenar_estoque(estoque_de_produtos)
+        acervo_ordenado=ordenar_acervo(estoque_acervo)
         # Percorre o dicionário ordenado
-        for produto,dados in estoque_ordenado:
+        for livro,dados in acervo_ordenado:
+             # Variável que recebe o valor da chave "autor"
+            autor=dados["autor"]
             # Variável que recebe o valor da chave "quantidade"
-            quantidade = dados["quantidade"]
-            # Variável que recebe o valor da chave "preco"
-            preco = dados["preco"]
+            quantidade = dados["quantidade"] 
             # Mostra em tela toda a lista de produtos
-            print(f"Produto: {produto} | Quantidade: {quantidade} | Preço: R$ {preco:.2f}")
-        print('Deseja realizar outra consulta?')
-        print('\n1 - Sim | 2 - Não')
-        opcao=str(input("Digite sua opção:"))
-        if opcao not in ["1","2"]:
-            print("Digite um opção válida")
-        else:
-            if opcao == '2':
-                print("\nObrigado por utilizar o programa!")
-                print("\nFim do programa")
-                is_running=False
+            print(f"Título do livro: {livro} | Autor: {autor} | Quantidade disponível: {quantidade} exemplar (res)")
+        return perguntar_continuar()
 
 # Função que será chamada caso usuário deseje remover um produto
 def remover():
@@ -213,10 +187,10 @@ def registrar_emprestimo():
 def exibir_historico_emprestimo():
     pass
 
+
+    
 # Laço de repetição "while": executará o código no seu escopo ENQUANTO "is_running" for true
 while(is_running):
-    # Variável de controle do segundo loop: caso o usuário deseje realizar outra operação, é necessário atribuir novamente o valor da variável "is_continuing", pois, para sair do segundo loop, seu valor foi alterado para "false"
-    # is_continuing = True
 
     opcoes=["Adicionar livro", "Listar livros", "Remover livro", "Atualizar quantidade", "Registrar empréstimo", "Exibir histórico de empréstimos", "Sair"]
     # O "enumerate" retorna sempre uma dupla de valores na ordem fixa (contador, elemento). O "start=1" indica a contagem iniciar no "1"
@@ -237,9 +211,10 @@ while(is_running):
         # Faz o loop voltar ao início"
         continue
     elif opcao == '1':
-        cadastrar()
+        # O valor booleano de "is_running" é estabelecido ao final da função "perguntar_continuar" a qual é chamada ao final de cada operação (cadastrar, listar, etc)
+        is_running=cadastrar()
     elif opcao == '2':
-        listar()
+        is_running=listar()
     elif opcao =='3':
         remover()
     elif opcao == '4':
@@ -251,7 +226,6 @@ while(is_running):
     elif opcao == '7':
         print("\nObrigado por utilizar o programa!")
         print("\nFim do programa")
-        is_running=False
-        
-   
+        is_running=False           
+
 
